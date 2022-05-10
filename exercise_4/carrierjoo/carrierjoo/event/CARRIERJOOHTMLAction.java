@@ -63,7 +63,6 @@ public class CARRIERJOOHTMLAction extends HTMLActionSupport {
 				|| command.isCommand(FormCommand.COMMAND04) || command.isCommand(FormCommand.COMMAND05)) {//check invalid carrrier code
 			event.setCarrierJooVO((CarrierJooVO)getVO(request, CarrierJooVO .class));
 		}
-
 		return  event;
 	}
 

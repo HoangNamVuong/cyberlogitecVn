@@ -21,9 +21,6 @@ import java.util.Map;
 
 import com.clt.apps.opus.dou.carrierjoo.carrierjoo.basic.CarrierJooBCImpl;
 import com.clt.apps.opus.dou.carrierjoo.carrierjoo.vo.CarrierJooVO;
-import com.clt.apps.opus.fns.joo.training.joocarriermgmt.integration.JooCarrierMgmtDBDAOSearchCrrCdRSQL;
-import com.clt.apps.opus.fns.joo.training.joocarriermgmt.integration.JooCarrierMgmtDBDAOSearchRLaneCdRSQL;
-import com.clt.apps.opus.fns.joo.training.joocarriermgmt.vo.JooCarrierVO;
 import com.clt.framework.component.message.ErrorHandler;
 import com.clt.framework.component.rowset.DBRowSet;
 import com.clt.framework.core.layer.integration.DAOException;
@@ -306,7 +303,7 @@ public class CarrierJooDBDAO extends DBDAOSupport {
 	 * @exception DAOException
 	 */
 	public List<CarrierJooVO> searchCrrCd(CarrierJooVO carrierJooVO) throws DAOException{
-		DBRowSet dbRowset = null;
+		 DBRowSet dbRowset = null;
 		 List<CarrierJooVO> list = new ArrayList();
 		 //query parameter
 		 Map<String, Object> param = new HashMap<String, Object>();
@@ -321,6 +318,108 @@ public class CarrierJooDBDAO extends DBDAOSupport {
 				velParam.putAll(mapVO);
 			 }
 			 dbRowset = new SQLExecuter("").executeQuery((ISQLTemplate)new CarrierJooDBDAOSearchCrrCdRSQL(), param, velParam);
+			 list = (List)RowSetUtil.rowSetToVOs(dbRowset, CarrierJooVO .class);
+		 } catch(SQLException se) {
+			 log.error(se.getMessage(),se);
+			 throw new DAOException(new ErrorHandler(se).getMessage());
+		 } catch(Exception ex) {
+			 log.error(ex.getMessage(),ex);
+			 throw new DAOException(new ErrorHandler(ex).getMessage());
+		 }
+		 return list;
+	}
+	
+	/**
+	 * search vendor code
+	 * @param CarrierJooVO carrierJooVO
+	 * @return List<CarrierJooVO>
+	 * @exception DAOException
+	 */
+	public List<CarrierJooVO> searchVndrCd(CarrierJooVO carrierJooVO) throws DAOException{
+		// TODO Auto-generated method stub
+		 DBRowSet dbRowset = null;
+		 List<CarrierJooVO> list = new ArrayList();
+		//query parameter
+		 Map<String, Object> param = new HashMap<String, Object>();
+		 //velocity parameter
+		 Map<String, Object> velParam = new HashMap<String, Object>();
+		 
+		 try{
+			 if(carrierJooVO != null){
+				Map<String, String> mapVO = carrierJooVO .getColumnValues();
+				param.putAll(mapVO);
+				
+				velParam.putAll(mapVO);
+			 }
+			 dbRowset = new SQLExecuter("").executeQuery((ISQLTemplate)new CarrierJooDBDAOSearchVndrCdRSQL(), param, velParam);
+			 list = (List)RowSetUtil.rowSetToVOs(dbRowset, CarrierJooVO .class);
+		 } catch(SQLException se) {
+			 log.error(se.getMessage(),se);
+			 throw new DAOException(new ErrorHandler(se).getMessage());
+		 } catch(Exception ex) {
+			 log.error(ex.getMessage(),ex);
+			 throw new DAOException(new ErrorHandler(ex).getMessage());
+		 }
+		 return list;
+	}
+
+	/**
+	 * search trade code
+	 * @param CarrierJooVO carrierJooVO
+	 * @return List<CarrierJooVO>
+	 * @exception DAOException
+	 */
+	public List<CarrierJooVO> searchTrdCd(CarrierJooVO carrierJooVO) throws DAOException {
+		// TODO Auto-generated method stub
+		 DBRowSet dbRowset = null;
+		 List<CarrierJooVO> list = new ArrayList();
+		//query parameter
+		 Map<String, Object> param = new HashMap<String, Object>();
+		 //velocity parameter
+		 Map<String, Object> velParam = new HashMap<String, Object>();
+		 
+		 try{
+			 if(carrierJooVO != null){
+				Map<String, String> mapVO = carrierJooVO .getColumnValues();
+				param.putAll(mapVO);
+				
+				velParam.putAll(mapVO);
+			 }
+			 dbRowset = new SQLExecuter("").executeQuery((ISQLTemplate)new CarrierJooDBDAOSearchTrdCdRSQL(), param, velParam);
+			 list = (List)RowSetUtil.rowSetToVOs(dbRowset, CarrierJooVO .class);
+		 } catch(SQLException se) {
+			 log.error(se.getMessage(),se);
+			 throw new DAOException(new ErrorHandler(se).getMessage());
+		 } catch(Exception ex) {
+			 log.error(ex.getMessage(),ex);
+			 throw new DAOException(new ErrorHandler(ex).getMessage());
+		 }
+		 return list;
+	}
+
+	/**
+	 * search customer code
+	 * @param CarrierJooVO carrierJooVO
+	 * @return List<CarrierJooVO>
+	 * @exception DAOException
+	 */
+	public List<CarrierJooVO> searchCusCd(CarrierJooVO carrierJooVO) throws DAOException {
+		// TODO Auto-generated method stub
+		 DBRowSet dbRowset = null;
+		 List<CarrierJooVO> list = new ArrayList();
+		//query parameter
+		 Map<String, Object> param = new HashMap<String, Object>();
+		 //velocity parameter
+		 Map<String, Object> velParam = new HashMap<String, Object>();
+		 
+		 try{
+			 if(carrierJooVO != null){
+				Map<String, String> mapVO = carrierJooVO .getColumnValues();
+				param.putAll(mapVO);
+				
+				velParam.putAll(mapVO);
+			 }
+			 dbRowset = new SQLExecuter("").executeQuery((ISQLTemplate)new CarrierJooDBDAOSearchCustCdRSQL(), param, velParam);
 			 list = (List)RowSetUtil.rowSetToVOs(dbRowset, CarrierJooVO .class);
 		 } catch(SQLException se) {
 			 log.error(se.getMessage(),se);

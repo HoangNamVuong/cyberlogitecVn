@@ -20,9 +20,6 @@ import com.clt.apps.opus.dou.carrierjoo.carrierjoo.basic.CarrierJooBCImpl;
 import com.clt.apps.opus.dou.carrierjoo.carrierjoo.event.CarrierjooEvent;
 import com.clt.apps.opus.dou.carrierjoo.carrierjoo.integration.CarrierJooDBDAO;
 import com.clt.apps.opus.dou.carrierjoo.carrierjoo.vo.CarrierJooVO;
-import com.clt.apps.opus.fns.joo.training.joocarriermgmt.basic.JooCarrierMgmtBC;
-import com.clt.apps.opus.fns.joo.training.joocarriermgmt.basic.JooCarrierMgmtBCImpl;
-import com.clt.apps.opus.fns.joo.training.joocarriermgmt.event.FnsJoo0901Event;
 import com.clt.apps.opus.fns.joo.training.joocarriermgmt.vo.JooCarrierVO;
 import com.clt.framework.component.message.ErrorHandler;
 import com.clt.framework.core.layer.event.Event;
@@ -98,11 +95,72 @@ public class CarrierJooSC extends ServiceCommandSupport {
 					||e.getFormCommand().isCommand(FormCommand.COMMAND05)) {
 				eventResponse = chkInvalid(e);
 			}
-			
 		}
 		return eventResponse;
 	}
 	
+	/**
+	 * this method for checking duplicate data
+	 * 
+	 * @param Event e
+	 * @return EventResponse
+	 * @exception EventException
+	 */
+	private EventResponse chkDupData(Event e) throws EventException {
+		// TODO Auto-generated method stub
+		GeneralEventResponse eventResponse = new GeneralEventResponse();
+		CarrierjooEvent event = (CarrierjooEvent)e;
+		CarrierJooBC command = new CarrierJooBCImpl();
+		
+		try{
+			List<CarrierJooVO> list = command.searchListCarrierJoo(event.getCarrierJooVO());
+			if(null == list){
+				list = new ArrayList<>();
+			}
+			eventResponse.setETCData("ISEXIST", list.size() > 0 ? "Y" : "N");
+		}catch(EventException ex){
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		}catch(Exception ex){
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		}	
+		return eventResponse;
+	}
+
+	/**
+	 * this method for checking invalid data
+	 * 
+	 * @param Event e
+	 * @return EventResponse
+	 * @exception EventException
+	 */
+	private EventResponse chkInvalid(Event e) throws EventException {
+		// TODO Auto-generated method stub
+		GeneralEventResponse eventResponse = new GeneralEventResponse();
+		CarrierjooEvent event = (CarrierjooEvent)e;
+		CarrierJooBC command = new CarrierJooBCImpl();
+		List<CarrierJooVO> list = null;
+		try{
+			if (e.getFormCommand().isCommand(FormCommand.COMMAND02)) {//check invalid carrier code
+				list = command.searchCrrCd(event.getCarrierJooVO());
+			}else if (e.getFormCommand().isCommand(FormCommand.COMMAND03)) {//check invalid vendor code
+				list = command.searchVndrCd(event.getCarrierJooVO());
+			}else if (e.getFormCommand().isCommand(FormCommand.COMMAND04)) {//check invalid customer code
+				list = command.searchCusCd(event.getCarrierJooVO());
+			}else if (e.getFormCommand().isCommand(FormCommand.COMMAND05)) {//check invalid trade code
+				list = command.searchTrdCd(event.getCarrierJooVO());
+			}
+			if(null == list){
+				list = new ArrayList<>();
+			}
+			eventResponse.setETCData("ISEXIST", list.size() > 0 ? "Y" : "N");
+		}catch(EventException ex){
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		}catch(Exception ex){
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		}	
+		return eventResponse;
+	}
+
 	/**
 	 * This method for initial data
 	 * 
@@ -198,66 +256,8 @@ public class CarrierJooSC extends ServiceCommandSupport {
 		return eventResponse;
 	}
 	
-	/**
-	 * this method for checking duplicate data
-	 * 
-	 * @param Event e
-	 * @return EventResponse
-	 * @exception EventException
-	 */
-	private EventResponse chkDupData(Event e) throws EventException {
-		// PDTO(Data Transfer Object including Parameters)
-		GeneralEventResponse eventResponse = new GeneralEventResponse();
-		CarrierjooEvent event = (CarrierjooEvent)e;
-		CarrierJooBC command = new CarrierJooBCImpl();
-		
-		try{
-			List<CarrierJooVO> list = command.searchListCarrierJoo(event.getCarrierJooVO());
-			if(null == list){
-				list = new ArrayList<>();
-			}
-			eventResponse.setETCData("ISEXIST", list.size() > 0 ? "Y" : "N");
-		}catch(EventException ex){
-			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
-		}catch(Exception ex){
-			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
-		}	
-		return eventResponse;
-	}
+	
 
-	/**
-	 * this method for checking invalid data
-	 * 
-	 * @param Event e
-	 * @return EventResponse
-	 * @exception EventException
-	 */
-	private EventResponse chkInvalid(Event e) throws EventException {
-		// PDTO(Data Transfer Object including Parameters)
-		GeneralEventResponse eventResponse = new GeneralEventResponse();
-		CarrierjooEvent event = (CarrierjooEvent)e;
-		CarrierJooBC command = new CarrierJooBCImpl();
-		List<JooCarrierVO> list = null;
-//		try{
-//			if (e.getFormCommand().isCommand(FormCommand.COMMAND02)) {//check invalid carrier code
-//				list = command.searchCrrCd(event.getCarrierJooVO());
-//			}else if (e.getFormCommand().isCommand(FormCommand.COMMAND03)) {//check invalid vendor code
-//				list = command.searchVndrCd(event.getCarrierJooVO());
-//			}else if (e.getFormCommand().isCommand(FormCommand.COMMAND04)) {//check invalid customer code
-//				list = command.searchCusCd(event.getCarrierJooVO());
-//			}else if (e.getFormCommand().isCommand(FormCommand.COMMAND05)) {//check invalid trade code
-//				list = command.searchTrdCd(event.getCarrierJooVO());
-//			}
-//			if(null == list){
-//				list = new ArrayList<>();
-//			}
-//			eventResponse.setETCData("ISEXIST", list.size() > 0 ? "Y" : "N");
-//		}catch(EventException ex){
-//			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
-//		}catch(Exception ex){
-//			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
-//		}	
-		return eventResponse;
-	}
+	
 	
 }

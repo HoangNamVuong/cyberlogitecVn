@@ -17,7 +17,6 @@ import java.util.List;
 
 import com.clt.apps.opus.dou.carrierjoo.carrierjoo.integration.CarrierJooDBDAO;
 import com.clt.apps.opus.dou.carrierjoo.carrierjoo.vo.CarrierJooVO;
-import com.clt.apps.opus.fns.joo.training.joocarriermgmt.vo.JooCarrierVO;
 import com.clt.framework.component.message.ErrorHandler;
 import com.clt.framework.core.layer.event.EventException;
 import com.clt.framework.core.layer.integration.DAOException;
@@ -151,6 +150,63 @@ public class CarrierJooBCImpl extends BasicCommandSupport implements CarrierJooB
 			if ( deleteVoList.size() > 0 ) {
 				dbDao.removemultiCarrierJooS(deleteVoList);
 			}
+		} catch(DAOException ex) {
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		} catch (Exception ex) {
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		}
+	}
+
+	/**
+	 * this mothed for searching vendor Code list, it's used checking invalid data
+	 * 
+	 * @param CarrierJooVO carrierJooVO
+	 * @return List<CarrierJooVO>
+	 * @exception EventException
+	 */
+	@Override
+	public List<CarrierJooVO> searchVndrCd(CarrierJooVO carrierJooVO) throws EventException {
+		// TODO Auto-generated method stub
+		try {
+			return dbDao.searchVndrCd(carrierJooVO);
+		} catch(DAOException ex) {
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		} catch (Exception ex) {
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		}
+	}
+
+	/**
+	 * this mothed for searching trade Code list, it's used checking invalid data
+	 * 
+	 * @param CarrierJooVO carrierJooVO
+	 * @return List<CarrierJooVO>
+	 * @exception EventException
+	 */
+	@Override
+	public List<CarrierJooVO> searchTrdCd(CarrierJooVO carrierJooVO) throws EventException {
+		// TODO Auto-generated method stub
+		try {
+			return dbDao.searchTrdCd(carrierJooVO);
+		} catch(DAOException ex) {
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		} catch (Exception ex) {
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		}
+	}
+
+	/**
+	 * this mothed for searching customer Code list, it's used checking invalid data
+	 * 
+	 * @param CarrierJooVO carrierJooVO
+	 * @return List<CarrierJooVO>
+	 * @exception EventException
+	 */
+	@Override
+	public List<CarrierJooVO> searchCusCd(CarrierJooVO carrierJooVO) throws EventException {
+		// TODO Auto-generated method stub
+		try {
+			return dbDao.searchCusCd(carrierJooVO);
 		} catch(DAOException ex) {
 			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
 		} catch (Exception ex) {

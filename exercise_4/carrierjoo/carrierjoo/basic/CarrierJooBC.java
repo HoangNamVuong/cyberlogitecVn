@@ -57,13 +57,40 @@ public interface CarrierJooBC {
 	public List<CarrierJooVO> searchRLaneCd(CarrierJooVO carrierJooVO) throws EventException;
 
 	/**
-	 * This method for searching Carrier Code list for dropdown list
+	 * This method for searching Carrier Code list for  list
 	 * 
 	 * @param CarrierJooVO carrierJooVO
 	 * @return List<CarrierJooVO>
 	 * @exception EventException
 	 */
 	public List<CarrierJooVO> searchCrrCd(CarrierJooVO carrierJooVO) throws EventException;
+
+	/**
+	 * search vendor code for validation check
+	 * 
+	 * @param CarrierJooVO carrierJooVO
+	 * @return List<CarrierJooVO>
+	 * @exception EventException
+	 */
+	public List<CarrierJooVO> searchVndrCd(CarrierJooVO carrierJooVO) throws EventException;
+
+	/**
+	 * search trade code for validation check
+	 * 
+	 * @param CarrierJooVO carrierJooVO
+	 * @return List<CarrierJooVO>
+	 * @exception EventException
+	 */
+	public List<CarrierJooVO> searchTrdCd(CarrierJooVO carrierJooVO) throws EventException;
+
+	/**
+	 * search customer code for validation check
+	 * 
+	 * @param CarrierJooVO carrierJooVO
+	 * @return List<CarrierJooVO>
+	 * @exception EventException
+	 */
+	public List<CarrierJooVO> searchCusCd(CarrierJooVO carrierJooVO) throws EventException;
 
 
 }

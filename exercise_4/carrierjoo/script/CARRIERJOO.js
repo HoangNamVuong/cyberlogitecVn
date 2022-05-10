@@ -173,7 +173,7 @@ function initSheet(sheetObj, sheetNo) {
 			SetEditable(1);
 			SetColProperty("jo_crr_cd", { AcceptKeys : "E|N", InputCaseSensitive : 1 });
 			SetColProperty("vndr_seq", { AcceptKeys : "N"});
-			SetColProperty("cust_cnt_cd", { AcceptKeys : "E|N", InputCaseSensitive : 1});
+			SetColProperty("cust_cnt_cd", { AcceptKeys : "E", InputCaseSensitive : 1});
 			SetColProperty("cust_seq", { AcceptKeys : "N"});
 			SetColProperty("trd_cd", { AcceptKeys : "E|N", InputCaseSensitive : 1 });
 			SetColProperty("rlane_cd", { ComboText : rlanCombo, ComboCode : rlanCombo });
@@ -238,8 +238,6 @@ function s_jo_crr_cd_OnCheckClick(comboObj, index, code) {
 function addComboItem(comboObj, comboItems) {
 	for (var i=0 ; i < comboItems.length ; i++) {
 		var comboItem=comboItems[i].split(",");
-		//comboObj.InsertItem(i, comboItem[0] + "|" + comboItem[1], comboItem[1]);
-		//NYK Modify 2014.10.21
 		if(comboItem.length == 1){
 			comboObj.InsertItem(i, comboItem[0], comboItem[0]);
 		}else{
@@ -269,13 +267,13 @@ function sheet1_OnChange(sheetObj, Row, Col, Value, OldValue, RaiseFlag){
 		return;
 	}
 	
-	if(colName == "jo_crr_cd"){//check invalid with mdm carrier
+	if(colName == "jo_crr_cd"){//check invalid with carrier
 		formObj.f_cmd.value		= COMMAND02;
 		var sParam				= FormQueryString(formObj) + "&jo_crr_cd=" + Value;
 		var sXml 				= sheetObj.GetSearchData("CARRIERJOOGS.do", sParam, {sync:1});	
 		var flag				= ComGetEtcData(sXml, "ISEXIST");
 		if(flag == 'N'){
-			ComShowCodeMessage("JOO00136",["Carrier"]);
+			ComShowCodeMessage("COM132201",["Carrier"]);
 			sheetObj.SetCellValue(Row, Col,OldValue,0);
 			sheetObj.SelectCell(Row, Col);
 		}
@@ -285,34 +283,33 @@ function sheet1_OnChange(sheetObj, Row, Col, Value, OldValue, RaiseFlag){
 		var sXml 				= sheetObj.GetSearchData("CARRIERJOOGS.do", sParam, {sync:1});	
 		var flag				= ComGetEtcData(sXml, "ISEXIST");
 		if(flag == 'N'){
-			ComShowCodeMessage("JOO00136",["Vendor"]);
+			ComShowCodeMessage("COM132201",["Vendor"]);
 			sheetObj.SetCellValue(Row, Col,OldValue,0);
 			sheetObj.SelectCell(Row, Col);
 		}
 	}else if(colName == "cust_seq" || colName == "cust_cnt_cd"){//check invalid customer information
-//		if(sheetObj.GetCellValue(Row,"cust_seq") != "" && sheetObj.GetCellValue(Row,"cust_cnt_cd") != ""){
-//		formObj.f_cmd.value		= COMMAND04;
-//		var sParam				= FormQueryString(formObj)+ "&cust_cnt_cd=" + sheetObj.GetCellValue(Row,"cust_cnt_cd") + "&cust_seq=" + sheetObj.GetCellValue(Row,"cust_seq") ;
-//		var sXml 				= sheetObj.GetSearchData("CARRIERJOOGS.do", sParam, {sync:1});	
-//		var flag				= ComGetEtcData(sXml, "ISEXIST");
-//		if(flag == 'N'){
-//			ComShowCodeMessage("JOO00136",["Customer"]);
-//			sheetObj.SetCellValue(Row, Col,OldValue,0);
-//			sheetObj.SelectCell(Row, Col);
-//		}
-//	}
+		if(sheetObj.GetCellValue(Row,"cust_seq") != "" && sheetObj.GetCellValue(Row,"cust_cnt_cd") != ""){
+			formObj.f_cmd.value		= COMMAND04;
+			var sParam				= FormQueryString(formObj)+ "&cust_cnt_cd=" + sheetObj.GetCellValue(Row,"cust_cnt_cd") + "&cust_seq=" + sheetObj.GetCellValue(Row,"cust_seq") ;
+			var sXml 				= sheetObj.GetSearchData("CARRIERJOOGS.do", sParam, {sync:1});	
+			var flag				= ComGetEtcData(sXml, "ISEXIST");
+			if(flag == 'N'){
+				ComShowCodeMessage("COM132201",["Customer"]);
+				sheetObj.SetCellValue(Row, Col,OldValue,0);
+				sheetObj.SelectCell(Row, Col);
+			}
+	    }
 	}else if(colName == "trd_cd"){//check invalid trade code
 		formObj.f_cmd.value		= COMMAND05;
 		var sParam				= FormQueryString(formObj) + "&trd_cd=" + Value;
 		var sXml 				= sheetObj.GetSearchData("CARRIERJOOGS.do", sParam, {sync:1});	
 		var flag				= ComGetEtcData(sXml, "ISEXIST");
 		if(flag == 'N'){
-			ComShowCodeMessage("JOO00136",["Trade"]);
+			ComShowCodeMessage("COM132201",["Trade"]);
 			sheetObj.SetCellValue(Row, Col,OldValue,0);
 			sheetObj.SelectCell(Row, Col);
 		}
 	}
-	
 	
 	if(colName == "jo_crr_cd" || colName == "rlane_cd"){//check duplicate data
 		if(sheetObj.GetCellValue(Row,"jo_crr_cd") != "" && sheetObj.GetCellValue(Row,"rlane_cd") != ""){
@@ -321,7 +318,7 @@ function sheet1_OnChange(sheetObj, Row, Col, Value, OldValue, RaiseFlag){
 			for(var i = headerRowNum; i <= sheetObj.RowCount(); i++){
 				if(i != Row && sheetObj.GetCellValue(Row,"jo_crr_cd") == sheetObj.GetCellValue(i,"jo_crr_cd")
 						&& sheetObj.GetCellValue(Row,"rlane_cd") == sheetObj.GetCellValue(i,"rlane_cd")){
-					ComShowCodeMessage("COM132501");
+					ComShowCodeMessage("COM12115");
 					sheetObj.SetCellValue(Row, Col,OldValue,0);
 					sheetObj.SelectCell(Row, Col);
 					return;
@@ -333,12 +330,13 @@ function sheet1_OnChange(sheetObj, Row, Col, Value, OldValue, RaiseFlag){
 			var sXml 				= sheetObj.GetSearchData("CARRIERJOOGS.do", sParam, {sync:1});	
 			var flag				= ComGetEtcData(sXml, "ISEXIST");
 			if(flag == 'Y'){
-				ComShowCodeMessage("JOO00222");
+				ComShowCodeMessage("COM12115");
 				sheetObj.SetCellValue(Row, Col,OldValue,0);
 				sheetObj.SelectCell(Row, Col);
 			}
 		}
 	}
+	
 }
 
 function validateForm(sheetObj, formObj, sAction) {
