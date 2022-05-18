@@ -4,10 +4,9 @@
 *@FileTitle : 
 *Open Issues :
 *Change history :
-*@LastModifyDate : 2022.04.30
-*@LastModifier : 
+*@LastModifyDate : 2022.05.18
+*@LastModifier : HoangNamVuong
 *@LastVersion : 1.0
-* 2022.04.30 
 * 1.0 Creation
 =========================================================*/
 package com.clt.apps.opus.dou.carrierjoo.carrierjoo.integration;
@@ -119,9 +118,6 @@ public class CarrierJooDBDAOCarrierJooVORSQL implements ISQLTemplate{
 		query.append("AND A.CRE_DT <= TO_DATE(@[s_cre_dt_to]||' 23:59','YYYY-MM-DD HH24:MI')" ).append("\n"); 
 		query.append("#end" ).append("\n"); 
 		query.append("ORDER BY A.JO_CRR_CD" ).append("\n"); 
-		query.append("" ).append("\n"); 
-		query.append("" ).append("\n"); 
-		query.append("" ).append("\n"); 
 
 	}
 }

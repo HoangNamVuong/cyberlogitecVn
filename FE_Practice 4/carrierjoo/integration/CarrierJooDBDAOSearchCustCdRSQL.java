@@ -1,13 +1,12 @@
 /*=========================================================
 *Copyright(c) 2022 CyberLogitec
-*@FileName : CarrierJooDBDAOSearchTrdCdRSQL.java
+*@FileName : CarrierJooDBDAOSearchCustCdRSQL.java
 *@FileTitle : 
 *Open Issues :
 *Change history :
-*@LastModifyDate : 2022.05.10
-*@LastModifier : 
+*@LastModifyDate : 2022.05.18
+*@LastModifier : HoangNamVuong
 *@LastVersion : 1.0
-* 2022.05.10 
 * 1.0 Creation
 =========================================================*/
 package com.clt.apps.opus.dou.carrierjoo.carrierjoo.integration ;
@@ -23,7 +22,7 @@ import com.clt.framework.support.db.ISQLTemplate;
  * @since J2EE 1.6
  */
 
-public class CarrierJooDBDAOSearchTrdCdRSQL implements ISQLTemplate{
+public class CarrierJooDBDAOSearchCustCdRSQL implements ISQLTemplate{
 
 	private StringBuffer query = new StringBuffer();
 	
@@ -34,10 +33,10 @@ public class CarrierJooDBDAOSearchTrdCdRSQL implements ISQLTemplate{
 	
 	/**
 	  * <pre>
-	  * CarrierJooDBDAOSearchTrdCdRSQL
+	  * CarrierJoo Search Customer Code
 	  * </pre>
 	  */
-	public CarrierJooDBDAOSearchTrdCdRSQL(){
+	public CarrierJooDBDAOSearchCustCdRSQL(){
 		setQuery();
 		params = new HashMap<String,String[]>();
 		String tmp = null;
@@ -47,11 +46,18 @@ public class CarrierJooDBDAOSearchTrdCdRSQL implements ISQLTemplate{
 		if(arrTmp.length !=2){
 			throw new IllegalArgumentException();
 		}
-		params.put("trd_cd",new String[]{arrTmp[0],arrTmp[1]});
+		params.put("cust_seq",new String[]{arrTmp[0],arrTmp[1]});
+
+		tmp = java.sql.Types.VARCHAR + ",N";
+		arrTmp = tmp.split(",");
+		if(arrTmp.length !=2){
+			throw new IllegalArgumentException();
+		}
+		params.put("cust_cnt_cd",new String[]{arrTmp[0],arrTmp[1]});
 
 		query.append("/*").append("\n"); 
 		query.append("Path : com.clt.apps.opus.dou.carrierjoo.carrierjoo.integration ").append("\n"); 
-		query.append("FileName : CarrierJooDBDAOSearchTrdCdRSQL").append("\n"); 
+		query.append("FileName : CarrierJooDBDAOSearchCustCdRSQL").append("\n"); 
 		query.append("*/").append("\n"); 
 	}
 	
@@ -67,11 +73,11 @@ public class CarrierJooDBDAOSearchTrdCdRSQL implements ISQLTemplate{
 	 * Query 생성
 	 */
 	public void setQuery(){
-		query.append("SELECT A.TRD_CD" ).append("\n"); 
-		query.append("FROM MDM_TRADE A" ).append("\n"); 
+		query.append("SELECT A.CUST_CNT_CD, A.CUST_SEQ " ).append("\n"); 
+		query.append("FROM MDM_CUSTOMER A" ).append("\n"); 
 		query.append("WHERE 1 = 1" ).append("\n"); 
-		query.append("AND DELT_FLG = 'N'" ).append("\n"); 
-		query.append("AND A.TRD_CD = @[trd_cd]" ).append("\n"); 
+		query.append("AND A.CUST_CNT_CD = @[cust_cnt_cd]" ).append("\n"); 
+		query.append("AND A.CUST_SEQ = @[cust_seq]" ).append("\n"); 
 
 	}
 }

@@ -4,10 +4,9 @@
 *@FileTitle : Carrier Joo Management
 *Open Issues :
 *Change history :
-*@LastModifyDate : 2022.04.29
-*@LastModifier : 
+*@LastModifyDate : 2022.05.18
+*@LastModifier : HoangNamVuong
 *@LastVersion : 1.0
-* 2022.04.29 
 * 1.0 Creation
 =========================================================*/
 package com.clt.apps.opus.dou.carrierjoo;
@@ -20,7 +19,6 @@ import com.clt.apps.opus.dou.carrierjoo.carrierjoo.basic.CarrierJooBCImpl;
 import com.clt.apps.opus.dou.carrierjoo.carrierjoo.event.CarrierjooEvent;
 import com.clt.apps.opus.dou.carrierjoo.carrierjoo.integration.CarrierJooDBDAO;
 import com.clt.apps.opus.dou.carrierjoo.carrierjoo.vo.CarrierJooVO;
-import com.clt.apps.opus.fns.joo.training.joocarriermgmt.vo.JooCarrierVO;
 import com.clt.framework.component.message.ErrorHandler;
 import com.clt.framework.core.layer.event.Event;
 import com.clt.framework.core.layer.event.EventException;
@@ -32,7 +30,7 @@ import com.clt.framework.support.view.signon.SignOnUserAccount;
 
 
 /**
- * ALPS-CarrierJoo Business Logic ServiceCommand - ALPS-CarrierJoo 대한 비지니스 트랜잭션을 처리한다.
+ * ALPS-CarrierJoo Business Logic ServiceCommand - ALPS-CarrierJoo process business transactions.
  * 
  * @author Hoang Nam Vuong
  * @see CarrierJooDBDAO
@@ -44,13 +42,13 @@ public class CarrierJooSC extends ServiceCommandSupport {
 	private SignOnUserAccount account = null;
 
 	/**
-	 * CarrierJoo system 업무 시나리오 선행작업<br>
-	 * 업무 시나리오 호출시 관련 내부객체 생성<br>
+	 * CarrierJoo Start the work scenario.
+	 * Creating related internal objects when calling a business scenario.
 	 */
 	public void doStart() {
-		log.debug("CarrierJooSC 시작");
+		log.debug("CarrierJooSC Start");
 		try {
-			// 일단 comment --> 로그인 체크 부분
+			// comment --> login check part
 			account = getSignOnUserAccount();
 		} catch (Exception e) {
 			log.error(e.getLocalizedMessage());
@@ -58,26 +56,23 @@ public class CarrierJooSC extends ServiceCommandSupport {
 	}
 
 	/**
-	 * CarrierJoo system 업무 시나리오 마감작업<br>
-	 * 업무 시나리오 종료시 관련 내부객체 해제<br>
+	 * CarrierJoo system Closing the work scenario
+	 * Release related internal objects at the end of the business scenario
 	 */
 	public void doEnd() {
-		log.debug("CarrierJooSC 종료");
+		log.debug("CarrierJooSC End");
 	}
 
 	/**
-	 * 각 이벤트에 해당하는 업무 시나리오 수행<br>
-	 * ALPS-CarrierJoo system 업무에서 발생하는 모든 이벤트의 분기처리<br>
+	 * This is a method that divides tasks by different actions
 	 * 
 	 * @param e Event
 	 * @return EventResponse
 	 * @exception EventException
 	 */
 	public EventResponse perform(Event e) throws EventException {
-		// RDTO(Data Transfer Object including Parameters)
 		EventResponse eventResponse = null;
 
-		// SC가 여러 이벤트를 처리하는 경우 사용해야 할 부분
 		if (e.getEventName().equalsIgnoreCase("CarrierjooEvent")) {
 			if (e.getFormCommand().isCommand(FormCommand.DEFAULT)) {
 				eventResponse = initData(e);
@@ -107,7 +102,6 @@ public class CarrierJooSC extends ServiceCommandSupport {
 	 * @exception EventException
 	 */
 	private EventResponse chkDupData(Event e) throws EventException {
-		// TODO Auto-generated method stub
 		GeneralEventResponse eventResponse = new GeneralEventResponse();
 		CarrierjooEvent event = (CarrierjooEvent)e;
 		CarrierJooBC command = new CarrierJooBCImpl();
@@ -134,7 +128,6 @@ public class CarrierJooSC extends ServiceCommandSupport {
 	 * @exception EventException
 	 */
 	private EventResponse chkInvalid(Event e) throws EventException {
-		// TODO Auto-generated method stub
 		GeneralEventResponse eventResponse = new GeneralEventResponse();
 		CarrierjooEvent event = (CarrierjooEvent)e;
 		CarrierJooBC command = new CarrierJooBCImpl();
@@ -205,15 +198,13 @@ public class CarrierJooSC extends ServiceCommandSupport {
 	}
 
 	/**
-	 * CARRIERJOO : [이벤트]<br>
-	 * [비즈니스대상]을 [행위]합니다.<br>
+	 * This is a method search a list data on Grid.
 	 * 
 	 * @param Event e
 	 * @return EventResponse
 	 * @exception EventException
 	 */
 	private EventResponse searchListCarrierJoo(Event e) throws EventException {
-		// PDTO(Data Transfer Object including Parameters)
 		GeneralEventResponse eventResponse = new GeneralEventResponse();
 		CarrierjooEvent event = (CarrierjooEvent)e;
 		CarrierJooBC command = new CarrierJooBCImpl();
@@ -229,22 +220,20 @@ public class CarrierJooSC extends ServiceCommandSupport {
 		return eventResponse;
 	}
 	/**
-	 * CARRIERJOO : [이벤트]<br>
-	 * [비즈니스대상]을 [행위]합니다.<br>
+	 *This is a method make actions(save,modify,remove). 
 	 *
 	 * @param Event e
 	 * @return EventResponse
 	 * @exception EventException
 	 */
 	private EventResponse multiCarrierJoo(Event e) throws EventException {
-		// PDTO(Data Transfer Object including Parameters)
 		GeneralEventResponse eventResponse = new GeneralEventResponse();
 		CarrierjooEvent event = (CarrierjooEvent)e;
 		CarrierJooBC command = new CarrierJooBCImpl();
 		try{
 			begin();
 			command.multiCarrierJoo(event.getCarrierJooVOS(),account);
-			eventResponse.setUserMessage(new ErrorHandler("XXXXXXXXX").getUserMessage());
+			eventResponse.setUserMessage(new ErrorHandler("DOU00001").getUserMessage());
 			commit();
 		} catch(EventException ex) {
 			rollback();

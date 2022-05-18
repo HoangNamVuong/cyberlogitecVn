@@ -1,16 +1,15 @@
 /*=========================================================
 *Copyright(c) 2022 CyberLogitec
-*@FileName : CarrierJooDBDAOCarrierJooVODSQL.java
+*@FileName : CarrierJooDBDAOSearchTrdCdRSQL.java
 *@FileTitle : 
 *Open Issues :
 *Change history :
-*@LastModifyDate : 2022.04.30
-*@LastModifier : 
+*@LastModifyDate : 2022.05.18
+*@LastModifier : HoangNamVuong
 *@LastVersion : 1.0
-* 2022.04.30 
 * 1.0 Creation
 =========================================================*/
-package com.clt.apps.opus.dou.carrierjoo.carrierjoo.integration;
+package com.clt.apps.opus.dou.carrierjoo.carrierjoo.integration ;
 
 import java.util.HashMap;
 import org.apache.log4j.Logger;
@@ -23,7 +22,7 @@ import com.clt.framework.support.db.ISQLTemplate;
  * @since J2EE 1.6
  */
 
-public class CarrierJooDBDAOCarrierJooVODSQL implements ISQLTemplate{
+public class CarrierJooDBDAOSearchTrdCdRSQL implements ISQLTemplate{
 
 	private StringBuffer query = new StringBuffer();
 	
@@ -34,10 +33,10 @@ public class CarrierJooDBDAOCarrierJooVODSQL implements ISQLTemplate{
 	
 	/**
 	  * <pre>
-	  *    
+	  * CarrierJooDBDAOSearchTrdCdRSQL
 	  * </pre>
 	  */
-	public CarrierJooDBDAOCarrierJooVODSQL(){
+	public CarrierJooDBDAOSearchTrdCdRSQL(){
 		setQuery();
 		params = new HashMap<String,String[]>();
 		String tmp = null;
@@ -47,18 +46,11 @@ public class CarrierJooDBDAOCarrierJooVODSQL implements ISQLTemplate{
 		if(arrTmp.length !=2){
 			throw new IllegalArgumentException();
 		}
-		params.put("jo_crr_cd",new String[]{arrTmp[0],arrTmp[1]});
-
-		tmp = java.sql.Types.VARCHAR + ",N";
-		arrTmp = tmp.split(",");
-		if(arrTmp.length !=2){
-			throw new IllegalArgumentException();
-		}
-		params.put("rlane_cd",new String[]{arrTmp[0],arrTmp[1]});
+		params.put("trd_cd",new String[]{arrTmp[0],arrTmp[1]});
 
 		query.append("/*").append("\n"); 
-		query.append("Path : com.clt.apps.opus.dou.carrierjoo.carrierjoo.integration").append("\n"); 
-		query.append("FileName : CarrierJooDBDAOCarrierJooVODSQL").append("\n"); 
+		query.append("Path : com.clt.apps.opus.dou.carrierjoo.carrierjoo.integration ").append("\n"); 
+		query.append("FileName : CarrierJooDBDAOSearchTrdCdRSQL").append("\n"); 
 		query.append("*/").append("\n"); 
 	}
 	
@@ -74,9 +66,11 @@ public class CarrierJooDBDAOCarrierJooVODSQL implements ISQLTemplate{
 	 * Query 생성
 	 */
 	public void setQuery(){
-		query.append("DELETE FROM JOO_CARRIER" ).append("\n"); 
-		query.append("WHERE	JO_CRR_CD = @[jo_crr_cd]" ).append("\n"); 
-		query.append("AND	RLANE_CD = @[rlane_cd]" ).append("\n"); 
+		query.append("SELECT A.TRD_CD" ).append("\n"); 
+		query.append("FROM MDM_TRADE A" ).append("\n"); 
+		query.append("WHERE 1 = 1" ).append("\n"); 
+		query.append("AND DELT_FLG = 'N'" ).append("\n"); 
+		query.append("AND A.TRD_CD = @[trd_cd]" ).append("\n"); 
 
 	}
 }

@@ -4,10 +4,9 @@
 *@FileTitle : Carrier Joo Management
 *Open Issues :
 *Change history :
-*@LastModifyDate : 2022.04.29
-*@LastModifier : 
+*@LastModifyDate : 2022.05.18
+*@LastModifier : HoangNamVuong
 *@LastVersion : 1.0
-* 2022.04.29 
 * 1.0 Creation
 =========================================================*/
 package com.clt.apps.opus.dou.carrierjoo.carrierjoo.basic;
@@ -15,13 +14,11 @@ package com.clt.apps.opus.dou.carrierjoo.carrierjoo.basic;
 import java.util.List;
 
 import com.clt.apps.opus.dou.carrierjoo.carrierjoo.vo.CarrierJooVO;
-import com.clt.apps.opus.fns.joo.training.joocarriermgmt.vo.JooCarrierVO;
 import com.clt.framework.core.layer.event.EventException;
 import com.clt.framework.support.view.signon.SignOnUserAccount;
 
 /**
  * ALPS-Carrierjoo Business Logic Command Interface<br>
- * - ALPS-Carrierjoo에 대한 비지니스 로직에 대한 인터페이스<br>
  *
  * @author Hoang Nam Vuong
  * @since J2EE 1.6
@@ -30,7 +27,7 @@ import com.clt.framework.support.view.signon.SignOnUserAccount;
 public interface CarrierJooBC {
 
 	/**
-	 * [비즈니스대상]을 [행위] 합니다.<br>
+	 * This method search list data for Grid.
 	 * 
 	 * @param CarrierJooVO	carrierJooVO
 	 * @return List<CarrierJooVO>
@@ -39,7 +36,7 @@ public interface CarrierJooBC {
 	public List<CarrierJooVO> searchListCarrierJoo(CarrierJooVO carrierJooVO) throws EventException;
 	
 	/**
-	 * [비즈니스대상]을 [행위] 합니다.<br>
+	 * This is a method make actions(save,modify,remove). 
 	 * 
 	 * @param CarrierJooVO[] carrierJooVO
 	 * @param account SignOnUserAccount
@@ -57,7 +54,7 @@ public interface CarrierJooBC {
 	public List<CarrierJooVO> searchRLaneCd(CarrierJooVO carrierJooVO) throws EventException;
 
 	/**
-	 * This method for searching Carrier Code list for  list
+	 * This method for searching Carrier Code list for list
 	 * 
 	 * @param CarrierJooVO carrierJooVO
 	 * @return List<CarrierJooVO>

@@ -1,13 +1,12 @@
 /*=========================================================
 *Copyright(c) 2022 CyberLogitec
-*@FileName : CarrierJooDBDAOSearchVndrCdRSQL.java
+*@FileName : CarrierJooDBDAOSearchRLaneCdRSQL.java
 *@FileTitle : 
 *Open Issues :
 *Change history :
-*@LastModifyDate : 2022.05.10
-*@LastModifier : 
+*@LastModifyDate : 2022.05.18
+*@LastModifier : HoangNamVuong
 *@LastVersion : 1.0
-* 2022.05.10 
 * 1.0 Creation
 =========================================================*/
 package com.clt.apps.opus.dou.carrierjoo.carrierjoo.integration ;
@@ -23,7 +22,7 @@ import com.clt.framework.support.db.ISQLTemplate;
  * @since J2EE 1.6
  */
 
-public class CarrierJooDBDAOSearchVndrCdRSQL implements ISQLTemplate{
+public class CarrierJooDBDAOSearchRLaneCdRSQL implements ISQLTemplate{
 
 	private StringBuffer query = new StringBuffer();
 	
@@ -34,24 +33,15 @@ public class CarrierJooDBDAOSearchVndrCdRSQL implements ISQLTemplate{
 	
 	/**
 	  * <pre>
-	  * CarrierJooDBDAOSearchVndrCdRSQL
+	  * CarrierJooDBDAOSearchRLaneCdRSQL
 	  * </pre>
 	  */
-	public CarrierJooDBDAOSearchVndrCdRSQL(){
+	public CarrierJooDBDAOSearchRLaneCdRSQL(){
 		setQuery();
 		params = new HashMap<String,String[]>();
-		String tmp = null;
-		String[] arrTmp = null;
-		tmp = java.sql.Types.VARCHAR + ",N";
-		arrTmp = tmp.split(",");
-		if(arrTmp.length !=2){
-			throw new IllegalArgumentException();
-		}
-		params.put("vndr_seq",new String[]{arrTmp[0],arrTmp[1]});
-
 		query.append("/*").append("\n"); 
 		query.append("Path : com.clt.apps.opus.dou.carrierjoo.carrierjoo.integration ").append("\n"); 
-		query.append("FileName : CarrierJooDBDAOSearchVndrCdRSQL").append("\n"); 
+		query.append("FileName : CarrierJooDBDAOSearchRLaneCdRSQL").append("\n"); 
 		query.append("*/").append("\n"); 
 	}
 	
@@ -67,11 +57,11 @@ public class CarrierJooDBDAOSearchVndrCdRSQL implements ISQLTemplate{
 	 * Query 생성
 	 */
 	public void setQuery(){
-		query.append("SELECT VNDR_SEQ" ).append("\n"); 
-		query.append("FROM MDM_VENDOR A" ).append("\n"); 
-		query.append("WHERE 1 = 1" ).append("\n"); 
-		query.append("AND DELT_FLG = 'N'" ).append("\n"); 
-		query.append("AND A.VNDR_SEQ = @[vndr_seq]" ).append("\n"); 
+		query.append("Select VSL_SLAN_CD as rlane_cd" ).append("\n"); 
+		query.append("FROM MDM_REV_LANE " ).append("\n"); 
+		query.append("WHERE 1 = 1 " ).append("\n"); 
+		query.append("     AND DECODE (DELT_FLG, 'Y','D','A') = 'A' " ).append("\n"); 
+		query.append("ORDER BY RLANE_CD" ).append("\n"); 
 
 	}
 }

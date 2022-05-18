@@ -1,13 +1,12 @@
 /*=========================================================
 *Copyright(c) 2022 CyberLogitec
-*@FileName : CarrierJooDBDAOSearchRLaneCdRSQL.java
+*@FileName : CarrierJooDBDAOSearchCrrCdRSQL.java
 *@FileTitle : 
 *Open Issues :
 *Change history :
-*@LastModifyDate : 2022.04.30
-*@LastModifier : 
+*@LastModifyDate : 2022.05.18
+*@LastModifier : HoangNamVuong
 *@LastVersion : 1.0
-* 2022.04.30 
 * 1.0 Creation
 =========================================================*/
 package com.clt.apps.opus.dou.carrierjoo.carrierjoo.integration ;
@@ -23,7 +22,7 @@ import com.clt.framework.support.db.ISQLTemplate;
  * @since J2EE 1.6
  */
 
-public class CarrierJooDBDAOSearchRLaneCdRSQL implements ISQLTemplate{
+public class CarrierJooDBDAOSearchCrrCdRSQL implements ISQLTemplate{
 
 	private StringBuffer query = new StringBuffer();
 	
@@ -34,15 +33,24 @@ public class CarrierJooDBDAOSearchRLaneCdRSQL implements ISQLTemplate{
 	
 	/**
 	  * <pre>
-	  * CarrierJooDBDAOSearchRLaneCdRSQL
+	  * CarrierJooDBDAOSearchCrrCdRSQL
 	  * </pre>
 	  */
-	public CarrierJooDBDAOSearchRLaneCdRSQL(){
+	public CarrierJooDBDAOSearchCrrCdRSQL(){
 		setQuery();
 		params = new HashMap<String,String[]>();
+		String tmp = null;
+		String[] arrTmp = null;
+		tmp = java.sql.Types.VARCHAR + ",N";
+		arrTmp = tmp.split(",");
+		if(arrTmp.length !=2){
+			throw new IllegalArgumentException();
+		}
+		params.put("jo_crr_cd",new String[]{arrTmp[0],arrTmp[1]});
+
 		query.append("/*").append("\n"); 
 		query.append("Path : com.clt.apps.opus.dou.carrierjoo.carrierjoo.integration ").append("\n"); 
-		query.append("FileName : CarrierJooDBDAOSearchRLaneCdRSQL").append("\n"); 
+		query.append("FileName : CarrierJooDBDAOSearchCrrCdRSQL").append("\n"); 
 		query.append("*/").append("\n"); 
 	}
 	
@@ -58,11 +66,14 @@ public class CarrierJooDBDAOSearchRLaneCdRSQL implements ISQLTemplate{
 	 * Query 생성
 	 */
 	public void setQuery(){
-		query.append("Select VSL_SLAN_CD as rlane_cd" ).append("\n"); 
-		query.append("FROM MDM_REV_LANE " ).append("\n"); 
-		query.append("WHERE 1 = 1 " ).append("\n"); 
-		query.append("     AND DECODE (DELT_FLG, 'Y','D','A') = 'A' " ).append("\n"); 
-		query.append("ORDER BY RLANE_CD" ).append("\n"); 
+		query.append("SELECT A.CRR_CD AS JO_CRR_CD" ).append("\n"); 
+		query.append("FROM MDM_CARRIER A" ).append("\n"); 
+		query.append("WHERE 1 = 1" ).append("\n"); 
+		query.append("AND DELT_FLG = 'N'" ).append("\n"); 
+		query.append("#if (${jo_crr_cd} != '') " ).append("\n"); 
+		query.append("AND A.CRR_CD = @[jo_crr_cd]" ).append("\n"); 
+		query.append("#end" ).append("\n"); 
+		query.append("ORDER BY A.CRR_CD" ).append("\n"); 
 
 	}
 }

@@ -34,11 +34,7 @@ AND A.CRE_DT >= TO_DATE(@[s_cre_dt_fm],'YYYY-MM-DD')
 #if (${s_cre_dt_to} != '') 
 AND A.CRE_DT <= TO_DATE(@[s_cre_dt_to]||' 23:59','YYYY-MM-DD HH24:MI')
 #end
-ORDER BY A.JO_CRR_CD
-
-
-
-			]]></sql>
+ORDER BY A.JO_CRR_CD			]]></sql>
 			<params>
 				<param name="rlane_cd" type="12" value="" out="N"/>
 				<param name="s_vndr_seq" type="12" value="" out="N"/>

@@ -4,16 +4,14 @@
 *@FileTitle : CarrierJooVO
 *Open Issues :
 *Change history :
-*@LastModifyDate : 2022.04.30
-*@LastModifier : 
+*@LastModifyDate : 2022.05.18
+*@LastModifier : HoangNamVuong
 *@LastVersion : 1.0
-* 2022.04.30  
 * 1.0 Creation
 =========================================================*/
 
 package com.clt.apps.opus.dou.carrierjoo.carrierjoo.vo;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -28,10 +26,8 @@ import com.clt.framework.component.common.AbstractValueObject;
 import com.clt.framework.component.util.JSPUtil;
 
 /**
- * Table Value Ojbect<br>
- * 관련 Event 에서 생성, 서버실행요청시 Data 전달역할을 수행하는 Value Object
- *
- * @author 
+ * Table Value Object<br>
+ * @author Hoang Nam Vuong
  * @since J2EE 1.6
  * @see AbstractValueObject
  */
@@ -79,10 +75,10 @@ public class CarrierJooVO extends AbstractValueObject {
 	/* Column Info */
 	private String custCntCd = null;
 
-	/*	테이블 컬럼의 값을 저장하는 Hashtable */
+	/*	To store the table column values Hashtable */
 	private HashMap<String, String> hashColumns = new LinkedHashMap<String, String>();
 
-	/*	테이블 컬럼에 대응되는 멤버변수를 저장하는 Hashtable */
+	/*	It stores member variables corresponding to table columns Hashtable */
 	private HashMap<String, String> hashFields = new LinkedHashMap<String, String>();
 	
 	public CarrierJooVO() {}
@@ -109,7 +105,7 @@ public class CarrierJooVO extends AbstractValueObject {
 	}
 	
 	/**
-	 * 테이블 컬럼에 저장할 값을 Hashtable<"column_name", "value"> 로 반환
+	 * Value to store in table column Hashtable<"column_name", "value"> 
 	 * @return HashMap
 	 */
 	public HashMap<String, String> getColumnValues(){
@@ -135,7 +131,7 @@ public class CarrierJooVO extends AbstractValueObject {
 	}
 	
 	/**
-	 * 컬럼명에 대응되는 멤버변수명을 저장하여 Hashtable<"column_name", "variable"> 로 반환   
+	 * By storing the member variable name corresponding to the column name Hashtable<"column_name", "variable"> 
 	 * @return
 	 */
 	public HashMap<String, String> getFieldNames(){
@@ -458,7 +454,7 @@ public class CarrierJooVO extends AbstractValueObject {
 	}
 
 	/**
-	 * Request 의 데이터를 추출하여 VO 의 멤버변수에 설정.
+	 * Request Extract the data of VO and set it in the member variable of VO..
 	 * @param request
 	 */
 	public void fromRequest(HttpServletRequest request, String prefix) {
@@ -483,7 +479,7 @@ public class CarrierJooVO extends AbstractValueObject {
 	}
 
 	/**
-	 * Request 의 데이터를 VO 배열로 변환하여 반환.
+	 * Request Converts the data of VO into an array and returns it
 	 * @param request
 	 * @return CarrierJooVO[]
 	 */
@@ -492,7 +488,7 @@ public class CarrierJooVO extends AbstractValueObject {
 	}
 
 	/**
-	 * Request 넘어온 여러 건 DATA를 VO Class 에 담는다. 
+	 * Request The data that has been passed over is stored in the VO Class.
 	 * @param request
 	 * @param prefix
 	 * @return CarrierJooVO[]
@@ -574,7 +570,7 @@ public class CarrierJooVO extends AbstractValueObject {
 	}
 
 	/**
-	 * VO 배열을 반환
+	 * VO return an array
 	 * @return CarrierJooVO[]
 	 */
 	public CarrierJooVO[] getCarrierJooVOs(){
@@ -583,14 +579,14 @@ public class CarrierJooVO extends AbstractValueObject {
 	}
 	
 	/**
-	 * VO Class의 내용을 String으로 변환
+	 * VO Class convert the contents.
 	 */
 	public String toString() {
 		   return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE );
 	   }
 
 	/**
-	* 포맷팅된 문자열에서 특수문자 제거("-","/",",",":")
+	* Remove special characters from formatted string("-","/",",",":")
 	*/
 	public void unDataFormat(){
 		this.updDt = this.updDt .replaceAll(",", "").replaceAll("-", "").replaceAll("/", "").replaceAll(":", "");

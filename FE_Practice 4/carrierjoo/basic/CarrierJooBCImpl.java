@@ -4,10 +4,9 @@
 *@FileTitle : Carrier Joo Management
 *Open Issues :
 *Change history :
-*@LastModifyDate : 2022.04.29
-*@LastModifier : 
+*@LastModifyDate : 2022.05.18
+*@LastModifier : HoangNamVuong
 *@LastVersion : 1.0
-* 2022.04.29 
 * 1.0 Creation
 =========================================================*/
 package com.clt.apps.opus.dou.carrierjoo.carrierjoo.basic;
@@ -25,7 +24,6 @@ import com.clt.framework.support.view.signon.SignOnUserAccount;
 
 /**
  * ALPS-CarrierJoo Business Logic Command Interface<br>
- * - ALPS-CarrierJoo에 대한 비지니스 로직에 대한 인터페이스<br>
  *
  * @author Hoang Nam Vuong
  * @since J2EE 1.6
@@ -35,52 +33,14 @@ public class CarrierJooBCImpl extends BasicCommandSupport implements CarrierJooB
 	// Database Access Object
 	private transient CarrierJooDBDAO dbDao = null;
 
-	/**
-	 * CarrierJooBCImpl 객체 생성<br>
-	 * CarrierJooDBDAO를 생성한다.<br>
-	 */
+
 	public CarrierJooBCImpl() {
 		dbDao = new CarrierJooDBDAO();
 	}
 	
-	/**
-	 * this method for searching RLane Code list, it's used drop down list
-	 * 
-	 * @param CarrierJooVO carrierJooVO
-	 * @return List<CarrierJooVO>
-	 * @exception EventException
-	 */
-	@Override
-	public List<CarrierJooVO> searchRLaneCd(CarrierJooVO carrierJooVO) throws EventException {
-		try {
-			return dbDao.searchRLaneCd(carrierJooVO);
-		} catch(DAOException ex) {
-			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
-		} catch (Exception ex) {
-			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
-		}
-	}
 	
 	/**
-	 * this method for searching Carrier Code list, it's used drop down list
-	 * 
-	 * @param CarrierJooVO carrierJooVO
-	 * @return List<CarrierJooVO>
-	 * @exception EventException
-	 */
-	@Override
-	public List<CarrierJooVO> searchCrrCd(CarrierJooVO carrierJooVO) throws EventException {
-		try {
-			return dbDao.searchCrrCd(carrierJooVO);
-		} catch(DAOException ex) {
-			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
-		} catch (Exception ex) {
-			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
-		}
-	}
-	
-	/**
-	 * [비즈니스대상]을 [행위] 합니다.<br>
+	 * This method search list data for Grid.
 	 * 
 	 * @param CarrierJooVO carrierJooVO
 	 * @return List<CarrierJooVO>
@@ -98,7 +58,7 @@ public class CarrierJooBCImpl extends BasicCommandSupport implements CarrierJooB
 	}
 	
 	/**
-	 * [비즈니스대상]을 [행위] 합니다.<br>
+	 *This is a method make actions(save,modify,remove). 
 	 * 
 	 * @param CarrierJooVO[] carrierJooVO
 	 * @param account SignOnUserAccount
@@ -156,9 +116,45 @@ public class CarrierJooBCImpl extends BasicCommandSupport implements CarrierJooB
 			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
 		}
 	}
+	
+	/**
+	 * this method for searching RLane Code list, it's used drop down list
+	 * 
+	 * @param CarrierJooVO carrierJooVO
+	 * @return List<CarrierJooVO>
+	 * @exception EventException
+	 */
+	@Override
+	public List<CarrierJooVO> searchRLaneCd(CarrierJooVO carrierJooVO) throws EventException {
+		try {
+			return dbDao.searchRLaneCd(carrierJooVO);
+		} catch(DAOException ex) {
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		} catch (Exception ex) {
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		}
+	}
+	
+	/**
+	 * this method for searching Carrier Code list, it's used drop down list
+	 * 
+	 * @param CarrierJooVO carrierJooVO
+	 * @return List<CarrierJooVO>
+	 * @exception EventException
+	 */
+	@Override
+	public List<CarrierJooVO> searchCrrCd(CarrierJooVO carrierJooVO) throws EventException {
+		try {
+			return dbDao.searchCrrCd(carrierJooVO);
+		} catch(DAOException ex) {
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		} catch (Exception ex) {
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		}
+	}
 
 	/**
-	 * this mothed for searching vendor Code list, it's used checking invalid data
+	 * this method for searching vendor Code list, it's used checking invalid data
 	 * 
 	 * @param CarrierJooVO carrierJooVO
 	 * @return List<CarrierJooVO>
@@ -177,7 +173,7 @@ public class CarrierJooBCImpl extends BasicCommandSupport implements CarrierJooB
 	}
 
 	/**
-	 * this mothed for searching trade Code list, it's used checking invalid data
+	 * this method for searching trade Code list, it's used checking invalid data
 	 * 
 	 * @param CarrierJooVO carrierJooVO
 	 * @return List<CarrierJooVO>
@@ -196,7 +192,7 @@ public class CarrierJooBCImpl extends BasicCommandSupport implements CarrierJooB
 	}
 
 	/**
-	 * this mothed for searching customer Code list, it's used checking invalid data
+	 * this method for searching customer Code list, it's used checking invalid data
 	 * 
 	 * @param CarrierJooVO carrierJooVO
 	 * @return List<CarrierJooVO>
