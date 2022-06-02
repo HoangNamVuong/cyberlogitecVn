@@ -4,9 +4,10 @@
 *@FileTitle : 
 *Open Issues :
 *Change history :
-*@LastModifyDate : 2022.05.18
-*@LastModifier : HoangNamVuong
+*@LastModifyDate : 2022.05.24
+*@LastModifier : 
 *@LastVersion : 1.0
+* 2022.05.24 
 * 1.0 Creation
 =========================================================*/
 package com.clt.apps.opus.dou.carrierjoo.carrierjoo.integration;

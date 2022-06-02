@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqls>
+	<querys>
+		<query name="InvoiceManagementDAOGetCrrRSQL">
+			<desc><![CDATA[InvoiceManagementDAOGetCrrRSQL]]></desc>
+			<sql><![CDATA[
+SELECT DISTINCT JO_CRR_CD FROM TESTPRC4	WHERE 1=1			]]></sql>
+			<params>
+			</params>
+		</query>
+	</querys>
+</sqls>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqls>
+	<querys>
+		<query name="InvoiceManagementDAOInvoiceDtlRSQL">
+			<desc><![CDATA[InvoiceManagementDAOInvoiceDtlRSQL]]></desc>
+			<sql><![CDATA[
+SELECT JO_CRR_CD
+     , RLANE_CD
+     , INV_NO
+     , CSR_NO
+     , APRO_FLG
+	 , RE_DIVR_CD
+	 , JO_STL_ITM_CD
+	 , LOCL_CURR_CD
+	 , INV_REV_ACT_AMT
+     , INV_EXP_ACT_AMT
+     , CUST_VNDR_CNT_CD
+     , CUST_VNDR_SEQ	 
+     , CUST_VNDR_ENG_NM
+     , PRNR_REF_NO
+FROM TESTPRC4
+WHERE 1=1
+AND ACCT_YRMON   BETWEEN REPLACE(@[fr_acct_yrmon],'-','') AND REPLACE(@[to_acct_yrmon],'-','')
+	#if (${jo_crr_cds}!=''  && ${jo_crr_cds} != 'ALL')
+        AND JO_CRR_CD    IN ( #foreach($key IN ${jo_crr_cds})#if($velocityCount < $jo_crr_cds.size()) '$key', #else '$key' #end #end)
+	#end
+	#if (${rlane_cd}!='')
+		AND RLANE_CD   = @[rlane_cd]
+	#end
+	#if (${trd_cd}!='')
+	   AND MODI_COST_CTR_CD = @[trd_cd]
+	#end			]]></sql>
+			<params>
+				<param name="fr_acct_yrmon" type="12" value="" out="N"/>
+				<param name="to_acct_yrmon" type="12" value="" out="N"/>
+				<param name="rlane_cd" type="12" value="" out="N"/>
+				<param name="trd_cd" type="12" value="" out="N"/>
+			</params>
+		</query>
+	</querys>
+</sqls>

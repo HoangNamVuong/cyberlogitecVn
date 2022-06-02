@@ -72,12 +72,12 @@
 						<th>Carrier</th>
 						<td><script type="text/javascript">ComComboObject('s_jo_crr_cd',1,80, 1, 0, 0);</script></td>
 						<th>Vendor</th>
-						<td><input type="text" style="width:60px;" name="s_vndr_seq" id="s_vndr_seq" onKeyPress="ComKeyOnlyNumber(this)" dataformat="num" maxlength="6"></td>
+						<td><input type="text" style="width:60px;" placeholder="Number" name="s_vndr_seq" id="s_vndr_seq" onblur="validateVendor(this)" onKeyPress="ComKeyOnlyNumber(this)" dataformat="num" maxlength="6"></td>
 						<th>Create Date</th>
 						<td>
-							<input type="text" style="width:78px;" caption="Create Date From" name="s_cre_dt_fm" onKeyPress="ComKeyOnlyNumber(this, '-')" dataformat="ymd" maxLength="10" minlength="8"><!--  
+							<input type="text" style="width:78px;" placeholder="yyyy-mm-dd" caption="Create Date From" name="s_cre_dt_fm" onKeyPress="ComKeyOnlyNumber(this)" dataformat="ymd" maxLength="10" minlength="8"><!--  
 							--><button type="button" class="calendar ir" name="btns_calendar1" id="btns_calendar1" ></button>~
-							<input type="text" style="width:78px;" caption="Create Date To" name="s_cre_dt_to" onKeyPress="ComKeyOnlyNumber(this, '-')" dataformat="ymd" maxLength="10" minlength="8"><!-- 
+							<input type="text" style="width:78px;" placeholder="yyyy-mm-dd" caption="Create Date To" name="s_cre_dt_to" onKeyPress="ComKeyOnlyNumber(this)" dataformat="ymd" maxLength="10" minlength="8"><!-- 
 							--><button type="button" class="calendar ir" name="btns_calendar2" id="btns_calendar2" ></button>
 						</td>
 					</tr> 

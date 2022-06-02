@@ -245,12 +245,12 @@ function initSheet(sheetObj, sheetNo) {
 			var cols = [ 
 	             { Type : "Status",   Hidden : 1, Width : 50,  Align : "Center", ColMerge : 0, SaveName : "ibflag" }, 
 	             { Type : "CheckBox", Hidden : 0, Width : 50,  Align : "Center", ColMerge : 0, SaveName : "del_chk" }, 
-	             { Type : "Text",     Hidden : 0, Width : 70,  Align : "Center", ColMerge : 0, SaveName : "jo_crr_cd",   KeyField : 1, Format : "", UpdateEdit : 0, InsertEdit : 1,   EditLen: 3 }, 
+	             { Type : "Popup",    Hidden : 0, Width : 70,  Align : "Center", ColMerge : 0, SaveName : "jo_crr_cd",   KeyField : 1, Format : "", UpdateEdit : 0, InsertEdit : 1,   EditLen: 3 }, 
 	             { Type : "Combo",    Hidden : 0, Width : 100, Align : "Center", ColMerge : 0, SaveName : "rlane_cd",    KeyField : 1, Format : "", UpdateEdit : 0, InsertEdit : 1,   EditLen: 5 }, 
-	             { Type : "Text",     Hidden : 0, Width : 100, Align : "Center", ColMerge : 0, SaveName : "vndr_seq",    KeyField : 1, Format : "", UpdateEdit : 1, InsertEdit : 1,   EditLen: 6 }, 
-	             { Type : "Text",     Hidden : 0, Width : 50,  Align : "Center", ColMerge : 0, SaveName : "cust_cnt_cd", KeyField : 1, Format : "", UpdateEdit : 1, InsertEdit : 1,   EditLen: 2 }, 
-	             { Type : "Text",     Hidden : 0, Width : 100, Align : "Center", ColMerge : 0, SaveName : "cust_seq",    KeyField : 1, Format : "", UpdateEdit : 1, InsertEdit : 1,   EditLen: 6 }, 
-	             { Type : "Text",     Hidden : 0, Width : 70,  Align : "Center", ColMerge : 0, SaveName : "trd_cd",      KeyField : 0, Format : "", UpdateEdit : 1, InsertEdit : 1,   EditLen: 3 }, 
+	             { Type : "Popup",    Hidden : 0, Width : 100, Align : "Center", ColMerge : 0, SaveName : "vndr_seq",    KeyField : 1, Format : "", UpdateEdit : 1, InsertEdit : 1,   EditLen: 6 }, 
+	             { Type : "Text",     Hidden : 0, Width : 50,  Align : "Center", ColMerge : 0, SaveName : "cust_cnt_cd", KeyField : 1, Format : "", UpdateEdit : 0, InsertEdit : 0,   EditLen: 2 }, 
+	             { Type : "Popup",    Hidden : 0, Width : 100, Align : "Center", ColMerge : 0, SaveName : "cust_seq",    KeyField : 1, Format : "", UpdateEdit : 1, InsertEdit : 1,   EditLen: 6 }, 
+	             { Type : "Popup",    Hidden : 0, Width : 70,  Align : "Center", ColMerge : 0, SaveName : "trd_cd",      KeyField : 0, Format : "", UpdateEdit : 1, InsertEdit : 1,   EditLen: 3 }, 
 	             { Type : "Combo",    Hidden : 0, Width : 70,  Align : "Center", ColMerge : 0, SaveName : "delt_flg",    KeyField : 0, Format : "", UpdateEdit : 1, InsertEdit : 1}, 
 	             { Type : "Text",     Hidden : 0, Width : 150, Align : "Center", ColMerge : 0, SaveName : "cre_dt",      KeyField : 0, Format : "", UpdateEdit : 0, InsertEdit : 0 }, 
 	             { Type : "Text",     Hidden : 0, Width : 180, Align : "Left",   ColMerge : 0, SaveName : "cre_usr_id",  KeyField : 0, Format : "", UpdateEdit : 0, InsertEdit : 0 }, 
@@ -425,8 +425,8 @@ function sheet1_OnSaveEnd() {
  * @param sheetObj : Object  - Object sheet.
  * @param Row      : Long    - Row index of the cell.
  * @param Col      : Long    - Column index of the cell.
- * @param Value    : String  - Updated value.
- * @param OldValue : String  - Value before update.
+ * @param Value    : string  - Updated value.
+ * @param OldValue : string  - Value before update.
  * @param RaiseFlag: Integer - Event fire option, value: 0 manual editing|1 method|2 paste.
  * */
 function sheet1_OnChange(sheetObj, Row, Col, Value, OldValue, RaiseFlag){
@@ -437,80 +437,76 @@ function sheet1_OnChange(sheetObj, Row, Col, Value, OldValue, RaiseFlag){
 		return;
 	}
 	
-	switch (colName) {
-	
-	//check invalid with carrier.
-	case "jo_crr_cd":
-		formObj.f_cmd.value	= COMMAND02;
-		var sParam			= FormQueryString(formObj) + "&jo_crr_cd=" + Value;
-		var sXml 			= sheetObj.GetSearchData("CARRIERJOOGS.do", sParam, {sync:1});	
-		var flag			= ComGetEtcData(sXml, "ISEXIST");
-		if(flag == 'N'){
-			ComShowCodeMessage("COM132201",["Carrier"]);
-			sheetObj.SetCellValue(Row, Col,OldValue,0);
-			sheetObj.SelectCell(Row, Col);
-		}
-		break;
-
-	//check invalid vendor code
-	case "vndr_seq":
-		formObj.f_cmd.value	= COMMAND03;
-		var sParam			= FormQueryString(formObj) + "&vndr_seq=" + Value;
-		var sXml 			= sheetObj.GetSearchData("CARRIERJOOGS.do", sParam, {sync:1});	
-		var flag			= ComGetEtcData(sXml, "ISEXIST");
-		if(flag == 'N'){
-			ComShowCodeMessage("COM132201",["Vendor"]);
-			sheetObj.SetCellValue(Row, Col,OldValue,0);
-			sheetObj.SelectCell(Row, Col);
-		}
-		break;
-		
-	//check invalid customer information
-	case "cust_seq":
-	case "cust_cnt_cd":
-		if(sheetObj.GetCellValue(Row,"cust_seq") != "" && sheetObj.GetCellValue(Row,"cust_cnt_cd") != ""){
-			formObj.f_cmd.value	= COMMAND04;
-			var sParam			= FormQueryString(formObj)+ "&cust_cnt_cd=" + sheetObj.GetCellValue(Row,"cust_cnt_cd") + "&cust_seq=" + sheetObj.GetCellValue(Row,"cust_seq") ;
-			var sXml 			= sheetObj.GetSearchData("CARRIERJOOGS.do", sParam, {sync:1});	
-			var flag			= ComGetEtcData(sXml, "ISEXIST");
-			if(flag == 'N'){
-				ComShowCodeMessage("COM132201",["Customer"]);
-				sheetObj.SetCellValue(Row, Col,OldValue,0);
-				sheetObj.SelectCell(Row, Col);
-			}
-	    }
-		break;
-	
-	//check invalid trade code	
-	case "trd_cd":
-		formObj.f_cmd.value		= COMMAND05;
-		var sParam				= FormQueryString(formObj) + "&trd_cd=" + Value;
-		var sXml 				= sheetObj.GetSearchData("CARRIERJOOGS.do", sParam, {sync:1});	
-		var flag				= ComGetEtcData(sXml, "ISEXIST");
-		if(flag == 'N'){
-			ComShowCodeMessage("COM132201",["Trade"]);
-			sheetObj.SetCellValue(Row, Col,OldValue,0);
-			sheetObj.SelectCell(Row, Col);
-		}
-		break;
-	
-	default:
-		break;
-	}
+//	switch (colName) {
+//	
+//	//check invalid with carrier.
+//	case "jo_crr_cd":
+//		formObj.f_cmd.value	= COMMAND02;
+//		var sParam			= FormQueryString(formObj) + "&jo_crr_cd=" + Value;
+//		var sXml 			= sheetObj.GetSearchData("CARRIERJOOGS.do", sParam, {sync:1});	
+//		var flag			= ComGetEtcData(sXml, "ISEXIST");
+//		if(flag == 'N'){
+//			ComShowCodeMessage("COM132201",["Carrier"]);
+//			sheetObj.SetCellValue(Row, Col,OldValue,0);
+//			sheetObj.SelectCell(Row, Col);
+//		}
+//		break;
+//
+//	//check invalid vendor code
+//	case "vndr_seq":
+//		formObj.f_cmd.value	= COMMAND03;
+//		var sParam			= FormQueryString(formObj) + "&vndr_seq=" + Value;
+//		var sXml 			= sheetObj.GetSearchData("CARRIERJOOGS.do", sParam, {sync:1});	
+//		var flag			= ComGetEtcData(sXml, "ISEXIST");
+//		if(flag == 'N'){
+//			ComShowCodeMessage("COM132201",["Vendor"]);
+//			sheetObj.SetCellValue(Row, Col,OldValue,0);
+//			sheetObj.SelectCell(Row, Col);
+//		}
+//		break;
+//		
+//	//check invalid customer information
+//	case "cust_seq":
+//	case "cust_cnt_cd":
+//		if(sheetObj.GetCellValue(Row,"cust_seq") != "" && sheetObj.GetCellValue(Row,"cust_cnt_cd") != ""){
+//			formObj.f_cmd.value	= COMMAND04;
+//			var sParam			= FormQueryString(formObj)+ "&cust_cnt_cd=" + sheetObj.GetCellValue(Row,"cust_cnt_cd") + "&cust_seq=" + sheetObj.GetCellValue(Row,"cust_seq") ;
+//			var sXml 			= sheetObj.GetSearchData("CARRIERJOOGS.do", sParam, {sync:1});	
+//			var flag			= ComGetEtcData(sXml, "ISEXIST");
+//			if(flag == 'N'){
+//				ComShowCodeMessage("COM132201",["Customer"]);
+//				sheetObj.SetCellValue(Row, Col,OldValue,0);
+//				sheetObj.SelectCell(Row, Col);
+//			}
+//	    }
+//		break;
+//	
+//	//check invalid trade code
+//	case "trd_cd":
+//		formObj.f_cmd.value		= COMMAND05;
+//		var sParam				= FormQueryString(formObj) + "&trd_cd=" + Value;
+//		var sXml 				= sheetObj.GetSearchData("CARRIERJOOGS.do", sParam, {sync:1});	
+//		var flag				= ComGetEtcData(sXml, "ISEXIST");
+//		if(flag == 'N'){
+//			ComShowCodeMessage("COM132201",["Trade"]);
+//			sheetObj.SetCellValue(Row, Col,OldValue,0);
+//			sheetObj.SelectCell(Row, Col);
+//		}
+//		break;
+//	
+//	default:
+//		break;
+//	}
 
 	//check duplicate data
 	if(colName == "jo_crr_cd" || colName == "rlane_cd"){
 		if(sheetObj.GetCellValue(Row,"jo_crr_cd") != "" && sheetObj.GetCellValue(Row,"rlane_cd") != ""){
-			//check on UI
-			var headerRowNum = sheetObj.HeaderRows();
-			for(var i = headerRowNum; i <= sheetObj.RowCount(); i++){
-				if(i != Row && sheetObj.GetCellValue(Row,"jo_crr_cd") == sheetObj.GetCellValue(i,"jo_crr_cd")
-						&& sheetObj.GetCellValue(Row,"rlane_cd") == sheetObj.GetCellValue(i,"rlane_cd")){
-					ComShowCodeMessage("COM12115");
-					sheetObj.SetCellValue(Row, Col,OldValue,0);
-					sheetObj.SelectCell(Row, Col);
-					return;
-				}
+			//check on UI side
+			if(sheetObj.ColValueDup("jo_crr_cd|rlane_cd") > -1){
+				ComShowCodeMessage("COM12115", "The Carrier and Rev.Lane");
+				sheetObj.SetCellValue(Row, Col,OldValue,0);
+				sheetObj.SelectCell(Row, Col);
+				return;
 			}
 			//check on Service side
 			formObj.f_cmd.value	= COMMAND01;
@@ -546,5 +542,91 @@ function validateForm(sheetObj, formObj, sAction) {
 	}
 	return true;
 }
+
+/**
+ * This function handling process for input validation vendor.
+ * */
+function validateVendor(vendor) {
+	if(vendor == ""){
+		return;
+	}
+	if(!ComIsNumber(vendor)){
+		ComShowCodeMessage("COM140000");
+		return;
+		
+	} 
+}
+
+/**
+ * Event fires when user clicks the pop-up button in the cell that appears when focus is put on the cell,
+ * or tries to edit the cell, given that a cell type is either Pop-up or PopupEdit.
+ * 
+ * @param Row: Long - Row index of the cell.
+ * @param Col: Long - Column index of the cell.
+ * */
+function sheet1_OnPopupClick(sheetObj,Row,Col) {
+	switch (sheetObj.ColSaveName(Col)) {
+	case "jo_crr_cd":
+		/**
+		 * This function open the pop-up.
+		 * 
+		 * @param sUrl: {string} - Required, pop-up address to be called.
+		 * @param iWidth: {int} - Required, the width of the pop-up window
+		 * @param iHeight: {int} - Required, the height of the pop-up window
+		 * @param sFunc: {string} - Required, function return data to parent window.
+		 * @param sDisplay: {string} - Required, column of the grid in the pop-up window is hidden, value: 1 visible|0 hidden.
+		 * @param bModal: {bool} - Selection, is the pop-up modal?
+		 * */
+		ComOpenPopup('/opuscntr/COM_ENS_0N1.do?', 900, 520, 'setJoCrrCd', '1,0,1', true, false, Row, Col);
+   		break;
+	case "vndr_seq":
+		ComOpenPopup('/opuscntr/COM_COM_0007.do?', 900, 520, 'setVndrCd', '1,0,1', true, false, Row, Col);
+   		break;	
+	case "cust_cnt_cd":
+	case "cust_seq":
+		ComOpenPopup('/opuscntr/COM_ENS_041.do?', 900, 520, 'setCustCd', '1,0,1', true, false, Row, Col);
+   		break;	
+	case "trd_cd":
+		ComOpenPopup('/opuscntr/COM_COM_0012.do?', 900, 520, 'setTrdCd', '1,0,1', true, false, Row, Col);
+   		break;	
+	default:
+		break;
+	}
+}
+
+
+/**
+ * This function return data for cell pop-up column carrier.
+ * */
+function setJoCrrCd(aryPopupData, row, col, sheetIdx){
+	var sheetObject=sheetObjects[0];
+	sheetObject.SetCellValue(row,col,aryPopupData[0][3]);
+}
+
+/**
+ * This function return data for cell pop-up column vendor code.
+ * */
+function setVndrCd(aryPopupData, row, col, sheetIdx){
+	var sheetObject=sheetObjects[0];
+	sheetObject.SetCellValue(row,col,aryPopupData[0][2]);
+}
+
+/**
+ * This function return data for cell pop-up column customer code.
+ * */
+function setCustCd(aryPopupData, row, col, sheetIdx){
+	var sheetObject=sheetObjects[0];
+	sheetObject.SetCellValue(row,"cust_cnt_cd",aryPopupData[0][3].substring(0,2));
+	sheetObject.SetCellValue(row,"cust_seq",aryPopupData[0][3].substring(2));
+}
+
+/**
+ * This function return data for cell pop-up column trade.
+ * */
+function setTrdCd(aryPopupData, row, col, sheetIdx){
+	var sheetObject=sheetObjects[0];
+	sheetObject.SetCellValue(row,col,aryPopupData[0][3]);
+}
+
 
 
